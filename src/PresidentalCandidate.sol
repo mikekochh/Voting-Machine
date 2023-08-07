@@ -23,7 +23,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-contract PresidentalCandidate {
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol"; // forge install OpenZeppelin/openzeppelin-contracts --no-commit
+
+contract PresidentalCandidate is Ownable {
     enum PoliticalParty {
         Republican,
         Democrat
@@ -32,15 +34,16 @@ contract PresidentalCandidate {
     string private s_candidateName;
     uint256 private s_NumberOfVotes;
     PoliticalParty private immutable i_politicalParty;
+    string private s_candidatePictureUri;
 
-    constructor(string memory _candidateName, PoliticalParty _politicalParty) {
+    constructor(string memory _candidateName, PoliticalParty _politicalParty, string memory _candidatePictureUri) {
         s_candidateName = _candidateName;
         s_NumberOfVotes = 0;
+        s_candidatePictureUri = _candidatePictureUri;
         i_politicalParty = _politicalParty;
     }
 
-    // how do I make it so this function is only called when the voting machine vote function is called?
-    function addVote() public {
+    function addVote() external onlyOwner {
         s_NumberOfVotes++;
     }
 
@@ -50,5 +53,9 @@ contract PresidentalCandidate {
 
     function getNumberOfVotes() public view returns (uint256) {
         return s_NumberOfVotes;
+    }
+
+    function getCandidatePictureURI() public view returns (string memory) {
+        return s_candidatePictureUri;
     }
 }

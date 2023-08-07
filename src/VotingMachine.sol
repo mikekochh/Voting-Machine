@@ -24,9 +24,8 @@
 pragma solidity ^0.8.18;
 
 import {PresidentalCandidate} from "./PresidentalCandidate.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol"; // forge install OpenZeppelin/openzeppelin-contracts --no-commit
 
-contract VotingMachine is Ownable {
+contract VotingMachine {
     error VotingMachine__PersonHasAlreadyVoted();
 
     mapping(address voter => bool hasVoted) hasVoterVoted;
@@ -38,7 +37,7 @@ contract VotingMachine is Ownable {
         _;
     }
 
-    function vote(address candidate) public hasPersonVoted(msg.sender) onlyOwner {
+    function vote(address candidate) public hasPersonVoted(msg.sender) {
         PresidentalCandidate(candidate).addVote();
     }
 }
