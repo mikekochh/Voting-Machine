@@ -10,6 +10,8 @@ contract PresidentalCandidateTest is Test {
     PresidentalCandidate donaldTrump;
     PresidentalCandidate joeBiden;
 
+    address public USER = makeAddr("user");
+
     string public candidateNameTrump = "Donald Trump";
     string public candidateNameBiden = "Joe Biden";
 
@@ -32,5 +34,11 @@ contract PresidentalCandidateTest is Test {
         assertEq(
             keccak256(abi.encodePacked(donaldTrump.getCandidateName())), keccak256(abi.encodePacked(candidateNameTrump))
         );
+    }
+
+    function testRevertIfOwnerDoesNotCallVoteFunction() public {
+        vm.expectRevert();
+        vm.prank(USER);
+        donaldTrump.addVote();
     }
 }

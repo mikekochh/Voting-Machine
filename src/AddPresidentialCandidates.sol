@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import {PresidentalCandidateFactory} from "../../src/PresidentalCandidateFactory.sol";
-import {PresidentalCandidate} from "../../src/PresidentalCandidate.sol";
-import {VotingMachine} from "../../src/VotingMachine.sol";
+import {PresidentalCandidateFactory} from "./PresidentalCandidateFactory.sol";
+import {PresidentalCandidate} from "./PresidentalCandidate.sol";
+import {VotingMachine} from "./VotingMachine.sol";
 
 contract AddPresidentialCandidates {}

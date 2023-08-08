@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import {Test} from "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 import {PresidentalCandidateFactory} from "../../src/PresidentalCandidateFactory.sol";
 import {PresidentalCandidate} from "../../src/PresidentalCandidate.sol";
 import {VotingMachine} from "../../src/VotingMachine.sol";
@@ -19,7 +19,7 @@ contract VotingMachineTest is Test {
     string public pictureURI = "temporary";
 
     modifier voterVotesForTrump() {
-        vm.prank(address(votingMachine));
+        vm.prank(voter);
         votingMachine.vote(address(donaldTrump));
         _;
     }
@@ -31,13 +31,13 @@ contract VotingMachineTest is Test {
         joeBiden = presidentalCandidateFactory.createPresidentalCandidateContract(
             candidateNameBiden, PresidentalCandidate.PoliticalParty.Democrat, pictureURI
         );
+        vm.startPrank(address(presidentalCandidateFactory));
         donaldTrump.transferOwnership(address(votingMachine));
         joeBiden.transferOwnership(address(votingMachine));
+        vm.stopPrank();
     }
 
     function testIfPresidentalCandidateGainedAVote() public voterVotesForTrump {
         assertEq(donaldTrump.getNumberOfVotes(), 1);
     }
-
-    function testRevertIfOwnerDoesNotCallVoteFunction() public {}
 }
