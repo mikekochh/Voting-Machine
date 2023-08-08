@@ -39,5 +39,6 @@ contract VotingMachine {
 
     function vote(address candidate) public hasPersonVoted(msg.sender) {
         PresidentalCandidate(candidate).addVote();
+        hasVoterVoted[msg.sender] = true;
     }
 }

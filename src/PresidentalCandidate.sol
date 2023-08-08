@@ -32,9 +32,9 @@ contract PresidentalCandidate is Ownable {
     }
 
     string private s_candidateName;
+    string private s_candidatePictureUri;
     uint256 private s_NumberOfVotes;
     PoliticalParty private immutable i_politicalParty;
-    string private s_candidatePictureUri;
 
     constructor(string memory _candidateName, PoliticalParty _politicalParty, string memory _candidatePictureUri) {
         s_candidateName = _candidateName;

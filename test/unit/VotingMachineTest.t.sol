@@ -7,6 +7,8 @@ import {PresidentalCandidate} from "../../src/PresidentalCandidate.sol";
 import {VotingMachine} from "../../src/VotingMachine.sol";
 
 contract VotingMachineTest is Test {
+    error VotingMachine__PersonHasAlreadyVoted();
+
     VotingMachine votingMachine = new VotingMachine();
     PresidentalCandidateFactory presidentalCandidateFactory = new PresidentalCandidateFactory();
     PresidentalCandidate donaldTrump;
@@ -39,5 +41,11 @@ contract VotingMachineTest is Test {
 
     function testIfPresidentalCandidateGainedAVote() public voterVotesForTrump {
         assertEq(donaldTrump.getNumberOfVotes(), 1);
+    }
+
+    function testExpectRevertIfVoterHasAlreadyVotedAndVotesAgain() public voterVotesForTrump {
+        vm.expectRevert(VotingMachine__PersonHasAlreadyVoted.selector);
+        vm.prank(voter);
+        votingMachine.vote(address(donaldTrump));
     }
 }
